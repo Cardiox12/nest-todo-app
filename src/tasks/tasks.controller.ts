@@ -17,9 +17,15 @@ export class TasksController {
     return this.tasksService.findAll(user_id);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.tasksService.findOne(+id);
+  @Get(':user_id/tasks/:task_id')
+  findOne(@Param('user_id') user_id: string, @Param('task_id') task_id: string) {
+    // Is this a security concern ? User can get a task he does not own ?
+    // How to manage that ?
+    // Modify route to be => `/users/:user_id/tasks/:task_id' and check
+    // if @user_id own the task @task_id ?
+    // Because we select the tasks owned by the user, if we select a task
+    // that is own by another user, it will not appear in the selection.
+    return this.tasksService.findOne(user_id, task_id);
   }
 
   @Patch(':id')

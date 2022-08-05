@@ -49,8 +49,14 @@ export class TasksService {
             .execute();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} task`;
+  async findOne(user_id: string, task_id: string) {
+    console.log(`Get task ${task_id} from user ${user_id}`);
+    return await User
+            .createQueryBuilder()
+            .leftJoinAndSelect("User.tasks", "tasks")
+            .where("User.user_id = :user_id", { user_id })
+            .andWhere("Tasks.task_id = :task_id", { task_id })
+            .execute();
   }
 
   update(id: number, updateTaskDto: UpdateTaskDto) {
