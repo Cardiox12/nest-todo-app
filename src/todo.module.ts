@@ -13,7 +13,7 @@ import { Task } from './tasks/entities/task.entity';
       host: "localhost",
       port: 5432,
       username: "tony",
-      password: undefined,
+      password: "1234",
       database: "todo",
       entities: [User, Task],
       synchronize: true
