@@ -23,4 +23,27 @@ def populate_users():
             print("Failure during request!")
             exit(1)
 
+def get_users():
+    response = requests.get(URL)
+
+    if response.ok:
+        return response.json()
+    return []
+
+def populate_tasks():
+    tasks = [
+        "faire à manger", "faire la vaisselle", "sortir le chien",
+        "faire les papiers", "réparer la voiture", "finir transcendence",
+        "jouer au loto", "s'inscrire à 42", "faire visa pour le canada",
+        "vider la litière", "finir de lire le livre"
+    ]
+    for user in get_users():
+        if user_id := user.get("user_id"):
+            for _ in range(random.randint(len(tasks) // 2, len(tasks))):
+                task = random.choice(tasks)
+
+                response = requests.post(f"{URL}/{user_id}/tasks", data={
+                    "content" : task,
+                    "status" : "todo"
+                })
 
