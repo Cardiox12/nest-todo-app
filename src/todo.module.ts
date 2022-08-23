@@ -5,6 +5,9 @@ import { User } from './users/entities/user.entity';
 import { UsersModule } from './users/users.module';
 import { TasksModule } from './tasks/tasks.module';
 import { Task } from './tasks/entities/task.entity';
+import { AuthModule } from './auth/auth.module';
+import { TodoController } from './todo.controller';
+import { JwtModule, JwtService } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -19,8 +22,10 @@ import { Task } from './tasks/entities/task.entity';
       synchronize: true
     }),
     UsersModule,
-    TasksModule
+    TasksModule,
+    AuthModule
   ],
+  controllers: [TodoController]
 })
 
 export class TodoModule {

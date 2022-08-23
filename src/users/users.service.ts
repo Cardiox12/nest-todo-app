@@ -44,12 +44,16 @@ export class UsersService {
         };
     }
 
-    findAll() : Promise<User[]> {
-        return this.usersRepository.find();
+    async findAll() : Promise<User[]> {
+        return await this.usersRepository.find();
     }
 
-    findOne(user_id: string) : Promise<User> {
-        return this.usersRepository.findOneBy({ user_id });
+    async findOne(user_id: string) : Promise<User> {
+        return await this.usersRepository.findOneBy({ user_id });
+    }
+
+    async findOneByUsername(username: string) : Promise<User> {
+        return await this.usersRepository.findOneBy({ username });
     }
 
     async remove(user_id: string) : Promise<void> {

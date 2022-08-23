@@ -25,16 +25,24 @@ export class TasksController {
     // if @user_id own the task @task_id ?
     // Because we select the tasks owned by the user, if we select a task
     // that is own by another user, it will not appear in the selection.
-    return this.tasksService.findOne(user_id, task_id);
+    return this.tasksService.findOne(user_id, task_id); 
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTaskDto: UpdateTaskDto) {
-    return this.tasksService.update(+id, updateTaskDto);
+  @Patch(':user_id/tasks/:task_id')
+  update(
+    @Param('user_id') user_id: string,
+    @Param('task_id') task_id: string,
+    @Body() updateTaskDto: UpdateTaskDto) 
+  {
+    return this.tasksService.update(user_id, task_id, updateTaskDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.tasksService.remove(+id);
+  @Delete(':users_id/tasks/:task_id')
+  remove(
+    @Param('user_id') user_id: string,
+    @Param('task_id') task_id: string
+  )
+  {
+    return this.tasksService.remove(user_id, task_id);
   }
 }

@@ -10,7 +10,9 @@ import { Task, TaskStatusEnum } from './entities/task.entity';
 export class TasksService {
   constructor(
     @InjectRepository(Task)
-    private tasksRepository: Repository<Task>
+    private tasksRepository: Repository<Task>,
+    @InjectRepository(User)
+    private usersRepository: Repository<User>
   ) { }
 
   async create(user_id: string, createTaskDto: CreateTaskDto) {
@@ -59,11 +61,40 @@ export class TasksService {
             .execute();
   }
 
-  update(id: number, updateTaskDto: UpdateTaskDto) {
-    return `This action updates a #${id} task`;
+  async update(user_id: string, task_id: string, updateTaskDto: UpdateTaskDto) {
+    const user = await this.usersRepository.findOne({
+      where: { user_id }
+    });
+
+    const task = await this.tasksRepository.findOne({
+      where: { task_id }
+    });
+    const { content, status } = updateTaskDto;
+
+    if ( !task ){
+      return {
+        msg: "Task not found!"
+      }
+    }
+    if ( content && content.length != 0 )
+      task.content = content;
+    if ( status )
+      task.status = status;
+    task.save();
+    return {
+      msg: "Task updated successfuly!"
+    };
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} task`;
+  async remove(user_id: string, task_id: string) {
+    const user = await this.usersRepository.findOne({
+      where: { user_id }
+    });
+    
+
+    // const task = await this.tasksRepository.findOne({
+    //   where: { task_id }
+    // });
+    // await this.tasksRepository.remove(task);
   }
 }
